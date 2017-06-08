@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JsBridge测试Demo</title>
+</head>
+<body>
+<textarea rows="10" cols="40" id="ttt">
+</textarea><br>
+<button id="btn_version">version</button>
+<button id="btn_alert">alert</button>
+<button id="btn_task">Task</button>
+<button id="btn_callback">函数名回调</button>
+<button id="btn_callbackfun">js回调</button>
+<button id="btn_asynccallbackfun">延迟5s异步回调</button>
+<script type="text/javascript">
+    window.onAppReady = function () {
+        document.getElementById('btn_version').onclick = function () {
+             try{
+                  alert(App.native.getVersion());
+            }catch(err){
+                alert(err);
+            }
+        };
+        document.getElementById('btn_alert').onclick = function () {
+            alert("alert");
+        };
+        document.getElementById('btn_task').onclick = function () {
+            try{
+                 App.native.toast("测试");
+            }catch(err){
+                alert(err);
+            }
+        };
+        document.getElementById('btn_callback').onclick = function () {
+            try{
+                 App.native.getData("callback");
+            }catch(err){
+                alert(err);
+            }
+        };
+         document.getElementById('btn_callbackfun').onclick = function () {
+            try{
+                 App.native.getDataCallback({
+                 onListener:function(data){
+                      var obj=document.getElementById('ttt');
+                        obj.value=data;
+                    }
+                 });
+            }catch(err){
+                alert(err);
+            }
+        };
+        document.getElementById('btn_asynccallbackfun').onclick = function () {
+            try{
+                 App.native.getDataAsyncCallback({
+                 onListener:function(data){
+                      var obj=document.getElementById('ttt');
+                        obj.value=data;
+                    }
+                 });
+            }catch(err){
+                alert(err);
+            }
+        };
+
+    }
+    function test(data){
+        var obj=document.getElementById('ttt');
+        var ttt=obj.value;
+        obj.value=ttt+"\r\n"+data;
+        return "成功";
+    }
+    function callback(data){
+        var obj=document.getElementById('ttt');
+        obj.value=data;
+        return "成功";
+    }
+</script>
+</body>
+</html>
